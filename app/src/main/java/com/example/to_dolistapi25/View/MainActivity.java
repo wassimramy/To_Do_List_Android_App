@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     /* Called when the user taps the Add Item button */
     public void addItem(View view) {
-        mainActivityPresenter.startEventEditActivity( this);
+        mainActivityPresenter.startItemEditActivity( this);
     }
 
     /* Called when the user is connected to a Wi-Fi connection*/
