@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">To-Do List</string>
+    <string name="addAnItem">Add an Item</string>
+    <string name="eventDate">Date</string>
+    <string name="eventDescriptionHint">hint</string>
+    <string name="eventTitleHint">hint</string>
+    <string name="cancelButton">Cancel</string>
+    <string name="eventTime">Time</string>
+    <string name="eventSave">Save</string>
+    <string name="title_activity_test">activity_test</string>
+</resources>

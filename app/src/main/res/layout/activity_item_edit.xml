@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding = "10pt"
+    tools:context=".View.ItemEditActivity">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/itemTitle"
+        android:layout_width="match_parent"
+        android:layout_height="22pt"
+        android:fadeScrollbars="true"
+        android:fontFamily="serif"
+        android:hint="@string/eventTitleHint"
+        android:maxLength="30"
+        android:textColor="#000000"
+        android:textSize="10pt" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/itemDescription"
+        android:layout_width="match_parent"
+        android:layout_height="55pt"
+        android:fadeScrollbars="true"
+        android:textSize="10pt"
+        android:textColor="#000000"
+        android:fontFamily="serif"
+        android:hint="@string/eventDescriptionHint" />
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="0,1">
+
+        <TableRow>
+
+            <EditText
+                android:id="@+id/itemDate"
+                android:layout_width="80pt"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:focusable="false"
+                android:fontFamily="serif"
+                android:hint="@string/eventDate"
+                android:inputType="date"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="10pt"
+                android:autofillHints="" />
+
+            <EditText
+                android:id="@+id/itemTime"
+                android:layout_width="80pt"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:focusable="false"
+                android:fontFamily="serif"
+                android:hint="@string/eventTime"
+                android:inputType="time"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="10pt"
+                android:autofillHints="" />
+        </TableRow>
+
+        <TableRow>
+            <Button
+                android:id="@+id/buttonSave"
+                android:layout_width="80pt"
+                android:layout_height="wrap_content"
+                style="?android:attr/buttonBarButtonStyle"
+                android:onClick="saveItem"
+                android:text="@string/eventSave" />
+
+            <CheckBox
+                android:id="@+id/itemStatus"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="80pt"
+                android:layout_height="wrap_content"
+                android:enabled="true"
+                android:fontFamily="serif"
+                android:paddingTop="5pt"
+                android:text="Accomplished"
+                android:textColor="@color/colorAccent" />
+
+
+        </TableRow>
+
+        <TableRow>
+            <Button
+                android:id="@+id/buttonDelete"
+                android:layout_width="80pt"
+                android:layout_height="wrap_content"
+                style="?android:attr/buttonBarButtonStyle"
+                android:onClick="deleteItem"
+                android:text="Delete" />
+
+            <Button
+                android:id="@+id/buttonCancel"
+                android:layout_width="80pt"
+                android:layout_height="wrap_content"
+                style="?android:attr/buttonBarButtonStyle"
+                android:onClick="cancelItem"
+                android:text="@string/cancelButton" />
+
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>
