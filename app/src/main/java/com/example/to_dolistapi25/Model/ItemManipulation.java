@@ -43,7 +43,7 @@ class ItemManipulation {
         }
     }
 
-    void deleteItem(long value, Context context, Item item, List<Item> list){
+    void deleteItem(long value, Item item, List<Item> list){
         if (value != 0) {
             list.remove(item);
         }

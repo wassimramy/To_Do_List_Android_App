@@ -20,29 +20,34 @@ public class Model {
     private RemoteDatabaseTransactions remoteDatabaseTransactions = new RemoteDatabaseTransactions();
     private ItemManipulation itemManipulation = new ItemManipulation();
 
+    // Called to populate the notificationsList
     private void checkDues(Context context) {
+
+        // Go through all the items list and check the due date
         for (int i = 0 ; i < list.size() ; i++){
+
+            Notification notification = new Notification(list.get(i).iid, list.get(i).itemTitle,
+                    list.get(i).itemDescription, list.get(i).itemDateAndTime.getTime(), i, context);
+
+            // If we still behind the due, set an Alarm.
             if (list.get(i).itemDateAndTime.after(Notification.getTodaysDate()) && !list.get(i).itemStatus){
-                Notification notification = new Notification(list.get(i).iid, list.get(i).itemTitle,
-                        list.get(i).itemDescription, list.get(i).itemDateAndTime.getTime(), i, context);
                 notification.setAlarm();
-                notificationsList.add(notification);
             }
-            else{
-                Notification notification = new Notification(list.get(i).iid, list.get(i).itemTitle,
-                        list.get(i).itemDescription, list.get(i).itemDateAndTime.getTime(), i, context);
-                notificationsList.add(notification);
-            }
+            notificationsList.add(notification);
         }
     }
 
+    // Called when starting populating new Items to disable all previous alarms and reset them according to the new item list later
     private void disableAlarms() {
         for (int i = 0 ; i < notificationsList.size() ; i++){
             notificationsList.get(i).disableNotifications();
         }
     }
 
+    // Called when starting the MainActivity
     public void mainActivityStartup (Context context){
+
+        // Check whether
         if (notificationsList != null){
             disableAlarms();
         }
@@ -81,7 +86,7 @@ public class Model {
     }
 
     public void deleteItem (long value, Context context){
-        itemManipulation.deleteItem(value, context, item, list);
+        itemManipulation.deleteItem(value, item, list);
         updateLocalDatabase(context);
     }
 

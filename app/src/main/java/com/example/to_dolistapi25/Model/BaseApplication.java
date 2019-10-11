@@ -19,21 +19,27 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        //Instantiate the database
         database = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "ToDoDB")
                 .build();
 
+        //Create notification channels
         createNotificationChannels();
 
+        //Instantiate the BroadcastReceiver for the connectivity change
         NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
-        registerReceiver(networkChangeReceiver, intentFilter);
-
+        IntentFilter intentFilter = new IntentFilter(); //Instantiate intentFilter
+        intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION); //Send the action identifier
+        registerReceiver(networkChangeReceiver, intentFilter); //Register the intent with the BroadcastReceiver (networkChangeReceiver)
     }
 
+    //Called when the app starts to create notification channels to handle notifications for all Android SDKs
     private void createNotificationChannels() {
+        //Check the SDK version
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            //Instantiate channel_0
             NotificationChannel channel_0 = new NotificationChannel(
                     CHANNEL_0_ID,
                     "Channel 0",
@@ -41,6 +47,7 @@ public class BaseApplication extends Application {
             );
             channel_0.setDescription("Notification_0 is fired a day before the item due");
 
+            //Instantiate channel_1
             NotificationChannel channel_1 = new NotificationChannel(
                     CHANNEL_1_ID,
                     "Channel 1",
@@ -48,6 +55,7 @@ public class BaseApplication extends Application {
             );
             channel_1.setDescription("Notification_1 is fired an hour before the item due");
 
+            //Instantiate channel_2
             NotificationChannel channel_2 = new NotificationChannel(
                     CHANNEL_2_ID,
                     "Channel 2",
@@ -55,14 +63,16 @@ public class BaseApplication extends Application {
             );
             channel_1.setDescription("Notification_2 is fired when the item is due");
 
-            NotificationManager manager = getSystemService(NotificationManager.class);
+            //Instantiate notificationManager to create the notification channels
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
 
-            manager.createNotificationChannel(channel_0);
-            manager.createNotificationChannel(channel_1);
-            manager.createNotificationChannel(channel_2);
+            notificationManager.createNotificationChannel(channel_0); //Create channel_0
+            notificationManager.createNotificationChannel(channel_1); //Create channel_1
+            notificationManager.createNotificationChannel(channel_2); //Create channel_2
         }
     }
 
+    //Called by the Data Access Object in both ItemEditActivity & MainActivity to write to the database
     public AppDatabase getDatabase()
     {
         return database;
