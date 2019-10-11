@@ -30,88 +30,98 @@ public class ItemEditActivityPresenter {
     }
 
     public void presentData (Item item){
-        // Capture the layout's TextView and set the string as its text
+        // Capture the layout's Title & Description TextViews and set the item details as their hints
         view.itemTitle.setHint(item.itemTitle);
         view.itemDescription.setHint(item.itemDescription);
-        String myFormat = "MM/dd/yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        view.itemDate.setHint(sdf.format(item.itemDateAndTime));
-        myFormat = "hh:mm a z";
-        sdf = new SimpleDateFormat(myFormat, Locale.US);
-        view.itemTime.setHint(sdf.format(item.itemDateAndTime));
-        view.itemStatus.setChecked(item.itemStatus);
+        String format = "MM/dd/yyyy"; //Date format
+        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+        view.itemDate.setHint(sdf.format(item.itemDateAndTime)); //Extract the date from the itemDateAndTime value and project it to itemDate
+        format = "hh:mm a z"; //Time format
+        sdf = new SimpleDateFormat(format, Locale.US);
+        view.itemTime.setHint(sdf.format(item.itemDateAndTime)); //Extract the time from the itemDateAndTime value and project it to itemTime
+        view.itemStatus.setChecked(item.itemStatus); //Retrieve the status of the item and project it to the checkbox
     }
 
+    //Called when the ItemEditActivity is created
     public void itemEditActivityStartup (long value){
-        Item item = model.itemEditActivityStartup(value);
-        presentData(item);
+        Item item = model.itemEditActivityStartup(value); //Retrieve an item from the database or create a new item
+        presentData(item); //Present the retrieved item from the previous method
     }
 
+    //Called when the Date is picked in the ItemEditActivity
     public void updateEventDate() {
-
-        //String myFormat = "MM/dd/yyyy G 'at' HH:mm:ss z";
-        String myFormat = "MM/dd/yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        view.itemDate.setText(sdf.format(view.myCalendar.getTime()));
+        String format = "MM/dd/yyyy"; //Date format
+        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+        view.itemDate.setText(sdf.format(view.calendar.getTime())); //Display the picked date in itemDate after formatting it
     }
 
+    //Called when the Time is picked in the ItemEditActivity
     public void updateEventTime() {
-
-        //String myFormat = "MM/dd/yyyy G 'at' HH:mm:ss z";
-        String myFormat = "hh:mm a z";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        view.itemTime.setText(sdf.format(view.myCalendar.getTime()));
+        String format = "hh:mm a z"; //Time format
+        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+        view.itemTime.setText(sdf.format(view.calendar.getTime())); //Display the picked time in itemTime after formatting it
     }
 
-    public void startMainActivity(Context context) {
+    //Called to get back to the MainActivity after the user finishes editing
+    private void startMainActivity(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-        view.finish();
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK); //Set flags for the new activity
+        context.startActivity(intent); //Start the MainActivity
+        view.finish(); //Close the ItemEditActivity
     }
 
-    public void retrieveDataFromItemEditActivity() {
+    //Called to retrieve the data displayed in the ItemEditActivity
+    private void retrieveDataFromItemEditActivity() {
 
+        //If itemTitle is empty, set the old value (displayed in the hint view) as its new value
         if (view.itemTitle.getText().toString().isEmpty()){
             view.itemTitle.setText(view.itemTitle.getHint());
         }
+        //If itemTitle is not empty, replace '\n' to eliminate parsing errors
         else {
             view.itemTitle.setText(view.itemTitle.getText().toString().replace('\n', ' '));
         }
 
+        //If itemDescription is empty, set the old value (displayed in the hint view)  as its new value
         if (view.itemDescription.getText().toString().isEmpty()){
             view.itemDescription.setText(view.itemDescription.getHint());
         }
+        //If itemTitle is not empty, replace '\n' to eliminate parsing errors
         else {
             view.itemDescription.setText(view.itemDescription.getText().toString().replace('\n', ' '));
         }
 
+        //If itemDate is empty, set the old value (displayed in the hint view) as its new value
         if (view.itemDate.getText().toString().isEmpty()){
             view.itemDate.setText(view.itemDate.getHint());
         }
 
+        //If itemTime is empty, set the old value (displayed in the hint view) as its new value
         if (view.itemTime.getText().toString().isEmpty()){
             view.itemTime.setText(view.itemTime.getHint());
         }
-        updateItem();
-    }
 
+    }
+        //Called to replace the old item information with the values displayed in ItemEditActivity
         private void updateItem() {
-            model.item.itemTitle = view.itemTitle.getText().toString();
-            model.item.itemDescription = view.itemDescription.getText().toString();
-            model.item.itemDateAndTime = formatDateAndTime();
-            model.item.itemStatus = view.itemStatus.isChecked();
+            model.item.itemTitle = view.itemTitle.getText().toString(); //Retrieve the itemTitle
+            model.item.itemDescription = view.itemDescription.getText().toString(); //Retrieve the itemDescription
+            model.item.itemDateAndTime = formatDateAndTime(); //Retrieve the combined data and time values
+            model.item.itemStatus = view.itemStatus.isChecked(); //Retrieve the status checkbox value
         }
 
-    public Date formatDateAndTime() {
+    //Called to combine the itemDate and itemTime values together to save it in the database
+    private Date formatDateAndTime() {
 
-        SimpleDateFormat myFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a z");
+        SimpleDateFormat myFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a z"); //Date and time format
         Date formattedDateAndTime;
 
         try {
+            //Concatenate both itemDate & itemTime and format the output
             formattedDateAndTime = myFormat.parse( view.itemDate.getText().toString().concat( " " +
                     view.itemTime.getText().toString()));
         } catch (ParseException e) {
+            //If the itemDate and itemTime were not formatted correctly for any reason, return tomorrow's date
             // get a calendar instance, which defaults to "now"
             Calendar calendar = Calendar.getInstance();
             // add one day to the date/calendar
@@ -122,20 +132,23 @@ public class ItemEditActivityPresenter {
         return formattedDateAndTime;
     }
 
+    //Called after the user finishes editing item information and wants to get back to the MainActivity
     public void saveItem(long value, Context context) {
-        retrieveDataFromItemEditActivity();
-        model.saveItem(value, context);
-        startMainActivity(context);
-        //dao.updateItem(item.iid, itemTitle.getText().toString(), itemDescription.getText().toString(),formattedDateAndTime, itemStatus.isChecked());
+        retrieveDataFromItemEditActivity(); //Retrieve the item details and update the item details
+        updateItem(); //Replace the old item information with the values displayed in ItemEditActivity
+        model.saveItem(value, context); //Replace the old item information with the values displayed in ItemEditActivity
+        startMainActivity(context); //Call the startMainActivity() to get back to the MainActivity
     }
 
+    //Called when the user taps the Cancel button
     public void cancelItem(Context context) {
-        startMainActivity(context);
+        startMainActivity(context); //Call the startMainActivity() to get back to the MainActivity
     }
 
+    //Called when the user taps the Delete button
     public void deleteItem(long value, Context context) {
-        model.deleteItem(value, context);
-        startMainActivity(context);
+        model.deleteItem(value, context); //Calls deleteItem() in the model view to delete this item from the database
+        startMainActivity(context); //Call the startMainActivity() to get back to the MainActivity
     }
 
 }
