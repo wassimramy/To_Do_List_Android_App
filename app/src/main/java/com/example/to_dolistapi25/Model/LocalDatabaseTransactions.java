@@ -15,13 +15,14 @@ import java.util.Locale;
 
 class LocalDatabaseTransactions {
 
+    // Called to update the local database to reflect the changes in the list
     void updateLocalDatabase(Context context, List<Item> list) {
         String fileName = "TodoDB.txt";
         String text;
         FileOutputStream fos = null;
 
         try {
-            fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+            fos = context.openFileOutput(fileName, Context.MODE_PRIVATE); // Wipe the old "TodoDB.txt" and print the data in the file
             for (int i = 0 ; i < list.size() ; i++){
                 text = "id: " + list.get(i).iid + ", item_title: " + list.get(i).itemTitle +
                         ", item_description: " + list.get(i).itemDescription +
@@ -42,6 +43,7 @@ class LocalDatabaseTransactions {
         }
     }
 
+    // Called to populate the list from the local database
     StringBuilder readLocalDatabase(Context context) {
         String fileName = "TodoDB.txt";
         FileInputStream fis = null;
@@ -54,6 +56,7 @@ class LocalDatabaseTransactions {
             stringBuilder = new StringBuilder();
             String text;
 
+            // Append each line to stringBuilder
             while ((text = br.readLine()) != null) {
                 stringBuilder.append(text).append("\n");
             }
@@ -72,12 +75,16 @@ class LocalDatabaseTransactions {
         return stringBuilder;
     }
 
+    // Called to populate list from the local database
     void populateListFromLocalDatabase(StringBuilder stringBuilder , List<Item> list) {
-        parseItemRecord(stringBuilder, list);
+        parseItemRecord(stringBuilder, list); // populate the list using the data in the stringBuilder
     }
 
+    // Called to parse attributes value to populate the list
     private void parseItemRecord (StringBuilder stringBuilder , List<Item> list){
         int start = 0, end;
+
+        // Break the items and send it to parseItemAttributes() to extract the values
         for (int i = 0 ; i < stringBuilder.length(); i++){
             if (stringBuilder.charAt(i) == '\n'){
                 end = i;
@@ -87,8 +94,10 @@ class LocalDatabaseTransactions {
         }
     }
 
+    // Called to extract the values of each item and assign it to the list
     private void parseItemAttributes (String itemRecord , List<Item> list){
 
+        // Extract the id value
         String startAttribute = "id: ";
         String endAttribute = ", item_title: ";
         int start = itemRecord.indexOf(startAttribute);
@@ -96,6 +105,7 @@ class LocalDatabaseTransactions {
         String attributeValue = itemRecord.substring(start + startAttribute.length(), end);
         long id = Long.parseLong(attributeValue);
 
+        // Extract the itemTitle
         startAttribute = endAttribute;
         endAttribute = ", item_description: ";
         start = itemRecord.indexOf(startAttribute);
@@ -103,6 +113,7 @@ class LocalDatabaseTransactions {
         attributeValue = itemRecord.substring(start + startAttribute.length(), end);
         String itemTitle = attributeValue;
 
+        // Extract the itemDescription
         startAttribute = endAttribute;
         endAttribute = ", item_date_and_time: ";
         start = itemRecord.indexOf(startAttribute);
@@ -110,6 +121,7 @@ class LocalDatabaseTransactions {
         attributeValue = itemRecord.substring(start + startAttribute.length(), end);
         String itemDescription = attributeValue;
 
+        // Extract the itemDateAndTime
         startAttribute = endAttribute;
         endAttribute = ", item_status: ";
         start = itemRecord.indexOf(startAttribute);
@@ -123,11 +135,13 @@ class LocalDatabaseTransactions {
             e.printStackTrace();
         }
 
+        // Extract the itemStatus
         startAttribute = endAttribute;
         start = itemRecord.indexOf(startAttribute);
         attributeValue = itemRecord.substring(start + startAttribute.length());
         boolean itemStatus = Boolean.parseBoolean(attributeValue);
 
+        // Add the extracted item to the list
         list.add(new Item (id, itemTitle, itemDescription, itemDateAndTime, itemStatus));
     }
 }
