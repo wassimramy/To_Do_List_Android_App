@@ -47,27 +47,32 @@ public class Model {
     // Called when starting the MainActivity
     public void mainActivityStartup (Context context){
 
-        // Check whether
+        // Check whether there is an old notificationList
         if (notificationsList != null){
-            disableAlarms();
+            disableAlarms(); // Disable all alarms
         }
-        list = new ArrayList<>();
-        notificationsList = new ArrayList<>();
-        localDatabaseTransactions.populateListFromLocalDatabase(localDatabaseTransactions.readLocalDatabase(context), list);
-        checkDues(context);
+        list = new ArrayList<>(); // Wipe the list
+        notificationsList = new ArrayList<>(); // Wipe the notificationsList
+        localDatabaseTransactions.populateListFromLocalDatabase(localDatabaseTransactions.readLocalDatabase(context), list); // Populate the list from the local database
+        checkDues(context); // Populate the notificationsList and set the alarms for the upcoming items
     }
 
+    // Called to either return either the item wanted or created by the user.
     public Item itemEditActivityStartup (long value){
+
+        // If the received id == 0. This means it is a new item that has been added.
         if (value == 0){
             item = new Item(0, "New Item Title", "New Item Description",
                     getTomorrowsDate(), false);
         }
+        // Otherwise, retrieve the item from the local database
         else {
             searchItemFromLocalDatabase(value);
         }
         return item;
     }
 
+    // Called to retrieve Tomorrow's date
     private Date getTomorrowsDate (){
         // get a calendar instance, which defaults to "now"
         Calendar calendar = Calendar.getInstance();
@@ -77,26 +82,30 @@ public class Model {
         return calendar.getTime();
     }
 
+    // Called to update remote database
     public void updateRemoteDatabase(ItemDAO dao) {
         new Thread(() -> remoteDatabaseTransactions.updateRemoteDatabase(dao, list)).start();
     }
 
+    // Called to update the local database
     private void updateLocalDatabase(Context context) {
         localDatabaseTransactions.updateLocalDatabase(context, list);
     }
 
+    // Called to delete an item
     public void deleteItem (long value, Context context){
-        itemManipulation.deleteItem(value, item, list);
-        updateLocalDatabase(context);
+        itemManipulation.deleteItem(value, item, list); // Called to delete an item from the list
+        updateLocalDatabase(context); //Update the local database with the new list
     }
 
+    //Called to save an item
     public void saveItem (long value, Context context){
-
-        itemManipulation.saveItem(value, item, list);
-        updateLocalDatabase(context);
+        itemManipulation.saveItem(value, item, list); // Called to update item information in the list
+        updateLocalDatabase(context); //Update the local database with the new list
     }
 
+    //Called to look for an item in the local database using its ID
     private void searchItemFromLocalDatabase(long value) {
-        item = itemManipulation.searchItemFromLocalDatabase(value, list);
+        item = itemManipulation.searchItemFromLocalDatabase(value, list); //Return the item
     }
 }
