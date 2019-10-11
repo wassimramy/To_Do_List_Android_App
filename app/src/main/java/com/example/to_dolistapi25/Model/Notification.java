@@ -35,7 +35,7 @@ public class Notification {
         this.requestCode = requestCode;
         this.context = context;
 
-        intent_0 = new Intent(context, Notification_0.class);
+        intent_0 = new Intent(context, Notification_0.class); //Create
         pendingIntent_0 = PendingIntent.getBroadcast(context.getApplicationContext(), requestCode, intent_0, 0);
         alarmManager_0 = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         intent_0.putExtra(Model.EXTRA_MESSAGE, itemID);
