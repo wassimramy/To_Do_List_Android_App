@@ -5,16 +5,20 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
+import com.example.to_dolistapi25.Model.BroadcastReceivers.Notification_0;
+import com.example.to_dolistapi25.Model.BroadcastReceivers.Notification_1;
+import com.example.to_dolistapi25.Model.BroadcastReceivers.Notification_2;
+
 import java.util.Calendar;
 import java.util.Date;
 
 import static android.content.Context.ALARM_SERVICE;
 
 public class Notification {
-    String notificationTitle, notificationText;
-    long itemID;
-    long notificationDateAndTime;
-    int requestCode;
+    public String notificationTitle, notificationText;
+    public long itemID;
+    public long notificationDateAndTime;
+    public int requestCode;
     public Context context;
     private AlarmManager alarmManager_0, alarmManager_1, alarmManager_2;
     private PendingIntent pendingIntent_0, pendingIntent_1, pendingIntent_2;
@@ -46,7 +50,7 @@ public class Notification {
 
     }
 
-     static Date getTodaysDate (){
+     public static Date getTodaysDate (){
         // get a calendar instance, which defaults to "now"
         Calendar calendar = Calendar.getInstance();
         return calendar.getTime();

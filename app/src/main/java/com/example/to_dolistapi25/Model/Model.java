@@ -13,7 +13,7 @@ import static java.util.Calendar.DAY_OF_YEAR;
 public class Model {
 
     public static List<Item> list;
-    static List<Notification> notificationsList;
+    public static List<Notification> notificationsList;
     public static final String EXTRA_MESSAGE = "0";
     public Item item = null;
     private LocalDatabaseTransactions localDatabaseTransactions = new LocalDatabaseTransactions();

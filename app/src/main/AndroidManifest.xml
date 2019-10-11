@@ -26,19 +26,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".Model.Notification_0"
+        <receiver android:name=".Model.BroadcastReceivers.Notification_0"
             android:enabled="true"
             android:exported="false">
         </receiver>
-        <receiver android:name=".Model.Notification_1"
+        <receiver android:name=".Model.BroadcastReceivers.Notification_1"
             android:enabled="true"
             android:exported="false">
         </receiver>
-        <receiver android:name=".Model.Notification_2"
+        <receiver android:name=".Model.BroadcastReceivers.Notification_2"
             android:enabled="true"
             android:exported="true">
         </receiver>
-        <receiver android:name=".Model.NetworkChangeReceiver" android:enabled="true" >
+        <receiver android:name=".Model.BroadcastReceivers.NetworkChangeReceiver" android:enabled="true" >
             <intent-filter>
                 <action android:name="android.net.wifi.STATE_CHANGE" />
             </intent-filter>

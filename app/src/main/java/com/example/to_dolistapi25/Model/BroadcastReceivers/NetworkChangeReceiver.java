@@ -1,4 +1,4 @@
-package com.example.to_dolistapi25.Model;
+package com.example.to_dolistapi25.Model.BroadcastReceivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

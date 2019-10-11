@@ -1,4 +1,4 @@
-package com.example.to_dolistapi25.Model;
+package com.example.to_dolistapi25.Model.BroadcastReceivers;
 
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -8,6 +8,8 @@ import android.content.Intent;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.example.to_dolistapi25.Model.Model;
+import com.example.to_dolistapi25.Model.Notification;
 import com.example.to_dolistapi25.R;
 import com.example.to_dolistapi25.View.ItemEditActivity;
 
