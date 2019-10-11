@@ -73,22 +73,26 @@ public class Notification {
         setNotification_2(); //set a notification on the due date
     }
 
+    //Called to set alarmManager_0
     private void setNotification_0() {
-        alarmManager_0.set(AlarmManager.RTC, notificationDateAndTime - 24*60*60*1000, pendingIntent_0);
+        alarmManager_0.set(AlarmManager.RTC, notificationDateAndTime - 24*60*60*1000, pendingIntent_0); //Set the alarm and connect it to pendingIntent_0 (Notification channel_0)
     }
 
+    //Called to set alarmManager_1
     private void setNotification_1() {
-        alarmManager_1.set(AlarmManager.RTC, notificationDateAndTime - 60*60*1000, pendingIntent_1);
+        alarmManager_1.set(AlarmManager.RTC, notificationDateAndTime - 60*60*1000, pendingIntent_1); //Set the alarm and connect it to pendingIntent_1 (Notification channel_1)
     }
 
+    //Called to set alarmManager_2
     private void setNotification_2() {
-        alarmManager_2.set(AlarmManager.RTC, notificationDateAndTime, pendingIntent_2);
+        alarmManager_2.set(AlarmManager.RTC, notificationDateAndTime, pendingIntent_2); //Set the alarm and connect it to pendingIntent_2 (Notification channel_2)
     }
 
+    //Disable all alarms
     void disableNotifications() {
-        alarmManager_0.cancel(pendingIntent_0);
-        alarmManager_1.cancel(pendingIntent_1);
-        alarmManager_2.cancel(pendingIntent_2);
+        alarmManager_0.cancel(pendingIntent_0); //Disable alarmManager_0
+        alarmManager_1.cancel(pendingIntent_1); //Disable alarmManager_1
+        alarmManager_2.cancel(pendingIntent_2); //Disable alarmManager_2
     }
 
 }
