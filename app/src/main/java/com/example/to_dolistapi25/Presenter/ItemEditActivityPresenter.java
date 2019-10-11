@@ -29,7 +29,7 @@ public class ItemEditActivityPresenter {
         this.model = new Model();
     }
 
-    public void presentData (Item item){
+    private void presentData (Item item){
         // Capture the layout's Title & Description TextViews and set the item details as their hints
         view.itemTitle.setHint(item.itemTitle);
         view.itemDescription.setHint(item.itemDescription);
@@ -113,7 +113,7 @@ public class ItemEditActivityPresenter {
     //Called to combine the itemDate and itemTime values together to save it in the database
     private Date formatDateAndTime() {
 
-        SimpleDateFormat myFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a z"); //Date and time format
+        SimpleDateFormat myFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a z", Locale.US); //Date and time format
         Date formattedDateAndTime;
 
         try {
