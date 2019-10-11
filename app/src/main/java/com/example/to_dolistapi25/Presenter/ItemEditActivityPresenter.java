@@ -23,12 +23,13 @@ public class ItemEditActivityPresenter {
     private ItemEditActivity view;
     private Model model;
 
-
+    //Instantiate the presenter
     public ItemEditActivityPresenter(ItemEditActivity view) {
         this.view = view;
         this.model = new Model();
     }
 
+    //Called to project the item details on the ItemEditActivity textviews
     private void presentData (Item item){
         // Capture the layout's Title & Description TextViews and set the item details as their hints
         view.itemTitle.setHint(item.itemTitle);

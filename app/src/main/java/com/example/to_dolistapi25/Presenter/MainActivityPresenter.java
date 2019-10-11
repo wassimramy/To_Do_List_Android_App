@@ -27,12 +27,12 @@ public class MainActivityPresenter {
         model = new Model();
     }
 
-    public void updateRecyclerView (RecyclerView recyclerView, Context context){
+    private void updateRecyclerView (RecyclerView recyclerView, Context context){
         ToDoAdapter mAdapter = new ToDoAdapter(context, model.list, position -> startEventEditActivity(position, context));
         recyclerView.setAdapter(mAdapter);
     }
 
-    public void startEventEditActivity(int position, Context context) {
+    private void startEventEditActivity(int position, Context context) {
         Intent intent = new Intent(context, ItemEditActivity.class);
         intent.putExtra(model.EXTRA_MESSAGE, model.list.get(position).iid );
         context.startActivity(intent);
