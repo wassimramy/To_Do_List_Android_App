@@ -21,17 +21,18 @@ import java.util.Calendar;
 
 public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder> {
 
-    Context context;
-    List<Item> list;
+    private Context context;
+    private List<Item> list;
+    private OnToDoAdapterItemClickListener onMyAdapterItemClickListener;
 
-    public OnToDoAdapterItemClickListener onMyAdapterItemClickListener;
-
-    public ToDoAdapter (Context context, List<Item> list, OnToDoAdapterItemClickListener onMyAdapterItemClickListener){
+    //Instantiate the ToDoAdapter
+     ToDoAdapter (Context context, List<Item> list, OnToDoAdapterItemClickListener onMyAdapterItemClickListener){
         this.list = list;
         this.context = context;
         this.onMyAdapterItemClickListener = onMyAdapterItemClickListener;
     }
 
+    //Inflate row.xml for each recycleView item
     @NonNull
     @Override
     public ToDoAdapter.ToDoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,40 +40,35 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
         return new ToDoViewHolder(view);
     }
 
+    //Called to display item details in the recycler view
     @Override
     public void onBindViewHolder(@NonNull ToDoAdapter.ToDoViewHolder holder, final int position) {
-
-        holder.itemTitleTextView.setText(list.get(position).itemTitle);
-        String myFormat = "EEE, MMM d, yyyy '@' hh:mm a z";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        holder.itemDateAndTimeTextView.setText(sdf.format(list.get(position).itemDateAndTime));
-        // the correct way to get today's date
-        Date today = Calendar.getInstance().getTime();
+        holder.itemTitleTextView.setText(list.get(position).itemTitle); //Set the itemTitleTextView in the row layout to itemTitle value
+        String format = "EEE, MMM d, yyyy '@' hh:mm a z"; //Format Date and Time
+        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+        holder.itemDateAndTimeTextView.setText(sdf.format(list.get(position).itemDateAndTime)); //Set the itemDateAndTime in the row layout to the formatted date and time
+        Date today = Calendar.getInstance().getTime(); //Gets today's date and hour to compare it with each item's due date and time
         if (list.get(position).itemDateAndTime.before(today)){
-            holder.itemDateAndTimeTextView.setTextColor(Color.parseColor(	"#FF0000"));
+            holder.itemDateAndTimeTextView.setTextColor(Color.parseColor(	"#FF0000")); //If the due date is passed, display the due date in red
         }
         else {
-            holder.itemDateAndTimeTextView.setTextColor(Color.parseColor(	"#3CB371"));
+            holder.itemDateAndTimeTextView.setTextColor(Color.parseColor(	"#3CB371")); //If the due date is not passed, display the due date in green
         }
-
-        holder.itemStatusCheckBox.setChecked(list.get(position).itemStatus);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onMyAdapterItemClickListener.onItemClicked(position);
-            }
-        });
+        holder.itemStatusCheckBox.setChecked(list.get(position).itemStatus); //Display the item status value in the checkbox placed in the row layout
+        holder.itemView.setOnClickListener(v -> onMyAdapterItemClickListener.onItemClicked(position)); //Return the position of the item when it is clicked by the user
     }
 
+    //Returns the count of the items displayed in the recyclerView
     public int getItemCount(){
         return list.size();
     }
 
+    //Captures the objects from the row layout
     class ToDoViewHolder extends RecyclerView.ViewHolder{
         TextView itemTitleTextView, itemDateAndTimeTextView;
         CheckBox itemStatusCheckBox;
 
-        public ToDoViewHolder (View itemView){
+         ToDoViewHolder (View itemView){
             super(itemView);
             itemStatusCheckBox = itemView.findViewById(R.id.itemStatusCheckBox);
             itemTitleTextView = itemView.findViewById(R.id.itemTitleTextView);
