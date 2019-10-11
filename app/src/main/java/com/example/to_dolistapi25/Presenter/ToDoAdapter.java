@@ -24,9 +24,9 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
     Context context;
     List<Item> list;
 
-    public OnMyAdapterItemClickListener onMyAdapterItemClickListener;
+    public OnToDoAdapterItemClickListener onMyAdapterItemClickListener;
 
-    public ToDoAdapter (Context context, List<Item> list, OnMyAdapterItemClickListener onMyAdapterItemClickListener){
+    public ToDoAdapter (Context context, List<Item> list, OnToDoAdapterItemClickListener onMyAdapterItemClickListener){
         this.list = list;
         this.context = context;
         this.onMyAdapterItemClickListener = onMyAdapterItemClickListener;

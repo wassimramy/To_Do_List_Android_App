@@ -13,18 +13,16 @@ import com.example.to_dolistapi25.View.ItemEditActivity;
 import com.example.to_dolistapi25.View.MainActivity;
 
 
-public class MainActivityPresenter implements Presenter {
+public class MainActivityPresenter {
 
     private MainActivity view;
     private Model model;
-
 
     public MainActivityPresenter(MainActivity view) {
         this.view = view;
         this.model = new Model();
     }
 
-    @Override
     public void onCreate() {
         model = new Model();
     }
