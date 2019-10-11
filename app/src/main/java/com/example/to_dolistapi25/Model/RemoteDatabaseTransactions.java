@@ -4,15 +4,18 @@ import java.util.List;
 
 class RemoteDatabaseTransactions {
 
+    //Called to start updating remote database
     void updateRemoteDatabase(ItemDAO dao, List<Item> list) {
 
-        List<Item> listRemoteDesktop = dao.getAll();
+        List<Item> listRemoteDatabase = dao.getAll();
 
-        if (listRemoteDesktop == null){
-            addItemsToRemoteDatabase(dao, list);
+        //Check whether there any records in the database or not
+        if (listRemoteDatabase == null){
+            addItemsToRemoteDatabase(dao, list); //If not, add the locally saved items to the remote database
         }
-        else if (!list.equals(listRemoteDesktop)){
-            checkDifferencesInRemoteDatabase(dao, listRemoteDesktop, list);
+        //Check whether both local and remote databases share the same records or not
+        else if (!list.equals(listRemoteDatabase)){
+            checkDifferencesInRemoteDatabase(dao, listRemoteDatabase, list); //If not, check the differences
         }
     }
 
